@@ -1,5 +1,6 @@
 require("dotenv").config();
 const express = require("express");
+const path = require("path");
 const morgan = require("morgan");
 const app = express();
 const Person = require("./models/person");
@@ -83,9 +84,17 @@ app.put("/api/persons/:id", (req, res, next) => {
     { new: true, runValidators: true, context: "query" }
   )
     .then((updatedPerson) => {
-      res.json(updatedPerson);
+      if (updatedPerson) {
+        res.json(updatedPerson);
+      } else {
+        res.status(404).end();
+      }
     })
     .catch((error) => next(error));
+});
+
+app.get("*", (req, res) => {
+  res.sendFile(path.resolve(__dirname, "dist", "index.html"));
 });
 
 const errorHandler = (error, request, response, next) => {
