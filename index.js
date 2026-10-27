@@ -16,7 +16,7 @@ morgan.token("body", (req) => {
 });
 
 app.use(
-  morgan(":method :url :status :res[content-length] - :response-time ms :body")
+  morgan(":method :url :status :res[content-length] - :response-time ms :body"),
 );
 
 app.get("/api/persons", (req, res, next) => {
@@ -81,7 +81,7 @@ app.put("/api/persons/:id", (req, res, next) => {
   Person.findByIdAndUpdate(
     req.params.id,
     { name, number },
-    { new: true, runValidators: true, context: "query" }
+    { new: true, runValidators: true, context: "query" },
   )
     .then((updatedPerson) => {
       if (updatedPerson) {
